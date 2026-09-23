@@ -1,0 +1,36 @@
+<h1>Configuração da agenda</h1>
+<p>Defina quantos atendimentos podem ser realizados simultaneamente em cada dia e horário da semana. Use <strong>0</strong> para indicar que não há atendimento.</p>
+
+<div id="mensagem" class="mensagem" role="status" aria-live="polite" hidden></div>
+
+<form id="form-config" novalidate>
+  <div class="calendario-wrap">
+    <table class="calendario config">
+      <thead>
+        <tr>
+          <th>Horário</th>
+          {{#each dias}}<th>{{nome}}</th>{{/each}}
+        </tr>
+      </thead>
+      <tbody>
+        {{#each linhas}}
+          <tr>
+            <th>{{horario}}</th>
+            {{#each celulas}}
+              <td>
+                <input type="number" min="0" max="{{@root.capacidadeMaxima}}" step="1"
+                       value="{{capacidade}}" data-dia="{{dia}}" data-horario="{{horario}}"
+                       aria-label="Capacidade às {{horario}}">
+              </td>
+            {{/each}}
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="acoes">
+    <button type="submit" class="btn" id="btn-salvar">Salvar configuração</button>
+  </div>
+</form>
+

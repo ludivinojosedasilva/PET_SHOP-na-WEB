@@ -1,0 +1,38 @@
+<h1>Agenda do Pet Shop</h1>
+
+<form method="get" action="/listaPetAgenda" class="filtro">
+  <label for="data">Filtrar por data</label>
+  <input type="date" id="data" name="data" value="{{filtroData}}">
+  <button type="submit" class="btn">Filtrar</button>
+  {{#if filtroData}}<a class="btn btn-sec" href="/listaPetAgenda">Limpar</a>{{/if}}
+</form>
+
+<p class="total">{{total}} agendamento(s)</p>
+
+{{#if agendamentos.length}}
+  <div class="calendario-wrap">
+    <table class="tabela">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Horário</th>
+          <th>Nome do Cliente</th>
+          <th>CPF do Cliente</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each agendamentos}}
+          <tr>
+            <td>{{dataBR}} <small class="mudo">({{diaNome}})</small></td>
+            <td>{{horario}}</td>
+            <td>{{nome}}</td>
+            <td>{{cpf}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+{{else}}
+  <p class="aviso">Nenhum agendamento encontrado.</p>
+{{/if}}
+

@@ -1,0 +1,73 @@
+<section class="intro">
+  <h1>Agende o banho e tosa do seu pet</h1>
+  <p>Escolha um horário disponível no calendário, informe seu nome e CPF e confirme.</p>
+</section>
+
+<div id="mensagem" class="mensagem" role="status" aria-live="polite" hidden></div>
+
+<div class="semana-nav">
+  {{#if semana.temAnterior}}
+    <a class="btn btn-sec" href="/?semana={{semana.anterior}}">&larr; Semana anterior</a>
+  {{else}}
+    <span class="btn btn-sec desabilitado">&larr; Semana anterior</span>
+  {{/if}}
+  <strong>Semana de {{semana.rotulo}}</strong>
+  {{#if semana.temProxima}}
+    <a class="btn btn-sec" href="/?semana={{semana.proxima}}">Próxima semana &rarr;</a>
+  {{else}}
+    <span class="btn btn-sec desabilitado">Próxima semana &rarr;</span>
+  {{/if}}
+</div>
+
+{{#unless temHorarios}}
+  <p class="aviso">Não há horários disponíveis nesta semana. Tente a próxima semana.</p>
+{{/unless}}
+
+<div class="calendario-wrap">
+  <table class="calendario" id="calendario">
+    <thead>
+      <tr>
+        <th>Horário</th>
+        {{#each dias}}
+          <th>{{nome}}<small>{{dataBR}}</small></th>
+        {{/each}}
+      </tr>
+    </thead>
+    <tbody>
+      {{#each linhas}}
+        <tr>
+          <th>{{horario}}</th>
+          {{#each celulas}}
+            <td>
+              {{#if disponivel}}
+                <button type="button" class="slot" data-data="{{data}}" data-horario="{{horario}}">
+                  <span class="slot-vagas">Vagas: {{vagas}}</span>
+                </button>
+              {{else}}
+                <span class="indisponivel">—</span>
+              {{/if}}
+            </td>
+          {{/each}}
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+<aside id="painel" class="painel" hidden>
+  <h2>Confirmar agendamento</h2>
+  <p>Horário escolhido: <strong id="resumo-slot"></strong></p>
+  <form id="form-agendamento" novalidate>
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" type="text" maxlength="100" autocomplete="name" required>
+
+    <label for="cpf">CPF</label>
+    <input id="cpf" name="cpf" type="text" inputmode="numeric" maxlength="14" placeholder="000.000.000-00" required>
+
+    <div class="acoes">
+      <button type="submit" class="btn" id="btn-confirmar">Confirmar agendamento</button>
+      <button type="button" class="btn btn-sec" id="btn-cancelar">Cancelar</button>
+    </div>
+  </form>
+</aside>
+

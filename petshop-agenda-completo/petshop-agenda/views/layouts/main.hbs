@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{titulo}} · PetShop Banho &amp; Tosa</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="container topo-inner">
+      <a class="logo" href="/">🐾 PetShop Banho &amp; Tosa</a>
+      <nav>
+        <a href="/">Agendar</a>
+        <a href="/listaPetAgenda">Agenda</a>
+        <a href="/ajustaPetAgenda">Configurar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {{{body}}}
+  </main>
+
+  {{> autoria}}
+
+  {{#if script}}<script src="{{script}}" defer></script>{{/if}}
+</body>
+</html>
+
