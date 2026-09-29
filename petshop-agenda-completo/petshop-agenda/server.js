@@ -36,16 +36,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Health check simples para verificar se o servidor está de pé.
+
 app.get('/health', (req, res) => {
   res.json({ sucesso: true, servico: 'petshop-agenda' });
 });
 
-// Rotas
+
 app.use('/', clienteRoutes);
 app.use('/', adminRoutes);
 
-// 404
+
 app.use((req, res) => {
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ sucesso: false, mensagem: 'Rota não encontrada.' });
@@ -56,8 +56,7 @@ app.use((req, res) => {
   });
 });
 
-// Erros não tratados
-// eslint-disable-next-line no-unused-vars
+
 app.use((erro, req, res, next) => {
   console.error(erro);
   if (req.path.startsWith('/api/')) {
@@ -72,12 +71,12 @@ app.use((erro, req, res, next) => {
 (async () => {
   try {
     await conectarBanco();
-    // Garante a criação dos índices únicos (essenciais para a segurança contra concorrência)
+    
     await Promise.all([Cliente.init(), ConfigHorario.init(), Slot.init(), Agendamento.init()]);
     await popularConfiguracaoInicial();
     const servidor = app.listen(PORT, () => console.log(`Servidor em http://localhost:${PORT}`));
 
-    // Encerramento gracioso: evita deixar operações do MongoDB abertas ao parar o processo.
+    
     const encerrar = async (sinal) => {
       console.log(`\\nRecebido ${sinal}. Encerrando servidor...`);
       servidor.close(async () => {
