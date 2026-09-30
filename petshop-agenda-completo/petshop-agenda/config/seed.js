@@ -1,7 +1,7 @@
 const ConfigHorario = require('../models/ConfigHorario');
 const { DIAS_SEMANA, HORARIOS } = require('./agenda');
 
-// Configuração semanal de exemplo (a mesma do enunciado). Só é gravada se a coleção estiver vazia.
+
 const CAPACIDADE_MANHA = { 1: 1, 2: 2, 3: 1, 4: 2, 5: 2, 6: 1 };
 const CAPACIDADE_TARDE = { 1: 1, 2: 2, 3: 1, 4: 2, 5: 2, 6: 0 };
 

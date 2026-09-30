@@ -9,9 +9,9 @@ const { ErroNegocio } = require('../utils/erros');
 
 const nomeDoDia = (numero) => DIAS_SEMANA.find((d) => d.numero === numero)?.nome ?? '';
 
-/* ------------------------------------------------------------------ */
-/* Calendário semanal (cliente)                                        */
-/* ------------------------------------------------------------------ */
+
+// Calendário semanal (cliente)                                        
+
 async function obterCalendarioSemanal(offsetBruto = 0) {
   const offset = Math.min(Math.max(parseInt(offsetBruto, 10) || 0, 0), MAX_SEMANAS_A_FRENTE);
   const segunda = datas.segundaDaSemana(offset);
@@ -58,11 +58,9 @@ async function obterCalendarioSemanal(offsetBruto = 0) {
   };
 }
 
-/* ------------------------------------------------------------------ */
-/* Agendamento                                                         */
-/* ------------------------------------------------------------------ */
+// Agendamento
 
-// 1ª verificação: leitura das regras e da disponibilidade atual.
+
 async function verificarDisponibilidade(data, horario) {
   if (!datas.dataValida(data)) throw new ErroNegocio('Data inválida.');
   if (!HORARIOS.includes(horario)) throw new ErroNegocio('Horário inválido.');
@@ -126,14 +124,14 @@ async function agendar({ data, horario, nome, cpf } = {}) {
   if (nome.length < 3 || nome.length > 100) throw new ErroNegocio('Informe um nome válido (3 a 100 caracteres).');
   if (!cpfUtil.cpfAceito(cpfLimpo)) throw new ErroNegocio('CPF inválido.');
 
-  // (1) Primeira verificação de disponibilidade
+  
   const { diaSemana, capacidadeTotal } = await verificarDisponibilidade(data, horario);
 
-  // Cadastra ou identifica o cliente pelo CPF
+  
   const cliente = await identificarCliente(nome, cpfLimpo);
 
-  // (2) Segunda verificação, ATÔMICA: só decrementa se ainda houver vaga.
-  // Se dois clientes confirmam ao mesmo tempo para a última vaga, apenas um passa.
+  
+
   await garantirSlot(data, horario, diaSemana, capacidadeTotal);
   const slot = await Slot.findOneAndUpdate(
     { data, horario, capacidadeDisponivel: { $gt: 0 } },
@@ -144,7 +142,7 @@ async function agendar({ data, horario, nome, cpf } = {}) {
     throw new ErroNegocio('Este horário acabou de ser preenchido. Escolha outro.', 409, 'INDISPONIVEL');
   }
 
-  // (3) Registra o agendamento associado ao cliente
+  
   let agendamento;
   try {
     agendamento = await Agendamento.create({
@@ -178,9 +176,9 @@ async function agendar({ data, horario, nome, cpf } = {}) {
   };
 }
 
-/* ------------------------------------------------------------------ */
-/* Consultas                                                           */
-/* ------------------------------------------------------------------ */
+
+// Consultas                                                           
+
 function mapearAgendamento(a) {
   return {
     id: a._id,
@@ -215,9 +213,8 @@ async function consultarPorCpf(cpf) {
   return itens.map(mapearAgendamento);
 }
 
-/* ------------------------------------------------------------------ */
-/* Configuração (administração)                                        */
-/* ------------------------------------------------------------------ */
+
+// Configuração (administração)
 async function obterConfiguracao() {
   const configs = await ConfigHorario.find().lean();
   const mapa = new Map(configs.map((c) => [`${c.diaSemana}|${c.horario}`, c.capacidade]));

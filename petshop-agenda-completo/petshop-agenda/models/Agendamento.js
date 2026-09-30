@@ -7,7 +7,7 @@ const agendamentoSchema = new mongoose.Schema(
     data: { type: String, required: true, match: /^\d{4}-\d{2}-\d{2}$/ },
     horario: { type: String, required: true, match: /^\d{2}:\d{2}$/ },
     diaSemana: { type: Number, required: true, min: 1, max: 6 },
-    // Controle de capacidade no momento da reserva (histórico/auditoria)
+    
     capacidadeTotal: { type: Number, required: true, min: 0 },
     vagasRestantesApos: { type: Number, required: true, min: 0 },
   },

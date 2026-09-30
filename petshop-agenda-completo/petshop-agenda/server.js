@@ -1,4 +1,4 @@
-// Fuso horário fixo: garante que "horário que já passou" seja calculado em Brasília.
+
 process.env.TZ = process.env.TZ || 'America/Sao_Paulo';
 require('dotenv').config();
 
