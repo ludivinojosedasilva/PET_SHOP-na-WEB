@@ -100,7 +100,7 @@ async function garantirSlot(data, horario, diaSemana, capacidadeTotal) {
       { upsert: true }
     );
   } catch (erro) {
-    // Duas requisições criaram o slot ao mesmo tempo: o índice único barrou uma delas, e está tudo certo.
+    
     if (erro.code !== 11000) throw erro;
   }
 }
