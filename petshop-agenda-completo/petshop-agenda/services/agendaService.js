@@ -177,7 +177,7 @@ async function agendar({ data, horario, nome, cpf } = {}) {
 }
 
 
-// Consultas                                                           
+                                                       
 
 function mapearAgendamento(a) {
   return {
@@ -214,7 +214,7 @@ async function consultarPorCpf(cpf) {
 }
 
 
-// Configuração (administração)
+
 async function obterConfiguracao() {
   const configs = await ConfigHorario.find().lean();
   const mapa = new Map(configs.map((c) => [`${c.diaSemana}|${c.horario}`, c.capacidade]));
@@ -261,8 +261,8 @@ async function salvarConfiguracao(itens) {
     }))
   );
 
-  // Propaga a nova capacidade para datas futuras que já têm slot criado,
-  // preservando os agendamentos já feitos (vagas restantes = nova capacidade - agendados).
+
+  
   const hoje = datas.paraISO(new Date());
   const alterados = validados.filter((v) => mapaAnterior.get(`${v.diaSemana}|${v.horario}`) !== v.capacidade);
   await Promise.all(
